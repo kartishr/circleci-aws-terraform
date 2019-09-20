@@ -10,13 +10,13 @@ anchors:
       - checkout
       - run:
           name: init_step
-          command: terraform init -input=false
+          command: cd aws && terraform init -input=false
       - run:
           name: plan_step
-          command: terraform plan
+          command: cd aws && terraform plan
       - run:
           name: apply_step
-          command: terraform apply --auto-approve
+          command: cd aws && terraform apply --auto-approve
 jobs:
   terraform-dev:
     executor:
