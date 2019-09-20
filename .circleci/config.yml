@@ -1,0 +1,29 @@
+version: 2.1
+executors:
+  default:
+    docker:
+      - image: hashicorp/terraform:0.11.14
+    working_directory: aws
+anchors:
+  - &terraform
+    steps:
+      - checkout
+      - run:
+          name: init_step
+          command: terraform init -input=false
+      - run:
+          name: plan_step
+          command: terraform plan
+      - run:
+          name: apply_step
+          command: terraform apply --auto-approve
+jobs:
+  terraform-dev:
+    executor:
+      name: default
+    <<: *terraform
+workflows:
+  version: 2.1
+  workflow:
+    jobs:
+      - terraform-dev
